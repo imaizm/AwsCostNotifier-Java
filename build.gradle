@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+group = 'imaizm'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
+	implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '2.2.5'
+	implementation group: 'com.amazonaws', name: 'aws-lambda-java-log4j2', version: '1.0.0'
+//	implementation group: 'com.amazonaws', name: 'aws-java-sdk-lambda', version: '1.11.491'
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-cloudwatch', version: '1.11.491'
+}
+
+task buildZip(type: Zip) {
+	from compileJava
+	from processResources
+	into('lib') {
+		from configurations.compileClasspath
+	}
+}
+
+build.dependsOn buildZip
